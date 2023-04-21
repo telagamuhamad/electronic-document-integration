@@ -111,14 +111,14 @@
                 <img src="{{ url('images/logo.png') }}" alt="">
             </div>
             <div class="login-button">
-                <button class="btn btn-danger">Masuk</button>
+                <a href="{{ route('login') }}" class="btn btn-danger">Masuk</a>
             </div>
         </div>
         <div class="content-container">
             <div class="running-welcome-text" style="background-color: #DC4C64; color: #FFFFFF;">
                 <marquee behavior="" direction="">Selamat datang di TGExpress Portal</marquee>
             </div>
-            <div id="carousel" class="carousel slide" data-bs-ride="carousel" style="background-color: #DC4C64;">
+            <div id="carousel" class="carousel slide" data-bs-ride="carousel" style="background-color: #DC4C64; padding-bottom: 20px;">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="{{ url('images/delivery1.png') }}">
