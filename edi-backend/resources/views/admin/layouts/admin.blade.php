@@ -40,7 +40,7 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="blank.html"><i class="fa fa-square-o fa-3x"></i> Dashboard</a>
+                        <a class="active-menu" href="{{ route('home') }}"><i class="fa fa-square-o fa-3x"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sitemap fa-3x"></i> Pengiriman<span
@@ -50,10 +50,10 @@
                                 <a href="{{ route('admin.edi.delivery-order.index') }}">Permintaan Pengiriman</a>
                             </li>
                             <li>
-                                <a href="#">Tanda Terima</a>
+                                <a href="{{ route('admin.edi.good-return-note.index') }}">Tanda Terima</a>
                             </li>
                             <li>
-                                <a href="#">Pembayaran</a>
+                                <a href="{{ route('admin.edi.invoice.index') }}">Invoice</a>
                             </li>
                         </ul>
                     </li>

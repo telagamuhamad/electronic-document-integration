@@ -28,4 +28,22 @@ class Invoices extends Model
     {
         return LogOptions::defaults();
     }
+
+    /**
+     * Return relation to Delivery Order
+     * 
+     */
+    public function deliveryOrder()
+    {
+        return $this->belongsTo(DeliveryOrder::class, 'delivery_order_id');
+    }
+
+    /**
+     * Return relation to Good Return Note
+     * 
+     */
+    public function goodReturnNote()
+    {
+        return $this->belongsTo(GoodReturnNotes::class, 'good_return_note_id');
+    }
 }

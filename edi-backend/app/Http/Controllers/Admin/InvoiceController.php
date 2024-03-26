@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoices;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -14,6 +15,24 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return view('admin.invoices.index');
+        $invoices = Invoices::orderBy('id', 'desc')->paginate(10);
+
+        return view('admin.invoice.index', [
+            'invoices' => $invoices
+        ]);
+    }
+
+    /**
+     * Show the details of invoice
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $invoice = Invoices::find($id);
+        if (empty($invoice)) {
+            return redirect()->back()->with('error_message', 'Invoice not found');
+        }
     }
 }
