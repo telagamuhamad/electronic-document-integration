@@ -47,7 +47,7 @@
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">Permintaan Pengiriman</a>
+                                <a href="{{ route('admin.edi.delivery-order.index') }}">Permintaan Pengiriman</a>
                             </li>
                             <li>
                                 <a href="#">Tanda Terima</a>

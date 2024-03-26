@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryOrder;
 use Illuminate\Http\Request;
 
 class DeliveryOrderController extends Controller
@@ -14,6 +15,9 @@ class DeliveryOrderController extends Controller
      */
     public function index()
     {
-        return view('admin.delivery-orders.index');
+        $deliveryOrders = DeliveryOrder::orderBy('id', 'desc')->paginate(10);
+        return view('admin.delivery-order.index', [
+            'deliveryOrders' => $deliveryOrders
+        ]);
     }
 }

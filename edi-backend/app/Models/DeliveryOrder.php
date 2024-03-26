@@ -12,7 +12,7 @@ class DeliveryOrder extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $table = 'delivery_orders';
+    protected $table = 'delivery_order_headers';
 
     protected $fillable = [
         'curier_id',
@@ -42,6 +42,16 @@ class DeliveryOrder extends Model
     public function getActivityLogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+
+    /**
+     * Return relation to Curier
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function courier()
+    {
+        return $this->belongsTo(Courier::class, 'curier_id', 'id');
     }
 
 }
