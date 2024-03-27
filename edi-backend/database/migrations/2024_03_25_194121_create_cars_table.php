@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable();
-            $table->string('vin_number')->nullable();
-            $table->string('license_plate_number')->nullable();
-            $table->decimal('capacity', 28, 2)->nullable();
-            $table->boolean('is_available')->default(true);
-            $table->boolean('is_full')->default(false);
+            $table->string('license_plate')->nullable();
+            $table->string('driver_name_1')->nullable();
+            $table->string('driver_name_2')->nullable();
+            $table->decimal('capacity', 28,2)->nullable();
+            $table->boolean('is_fulfilled')->nullable();
+            $table->boolean('is_departed')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

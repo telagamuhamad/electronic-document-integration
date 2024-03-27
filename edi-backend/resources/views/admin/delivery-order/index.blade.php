@@ -19,7 +19,7 @@
             Pengiriman Barang
         </div>
         <div class="panel-body">
-            <button class="btn btn-success" style="margin-bottom: 10px; float: right">Pengiriman Baru</button>
+            <a href="{{ route('admin.edi.delivery-order.create') }}" class="btn btn-success" style="margin-bottom: 10px; float: right">Pengiriman Baru</a href="{{ route('admin.edi.delivery-order.create') }}">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>

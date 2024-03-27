@@ -8,37 +8,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class GoodReturnNoteItem extends Model
+class GoodsReceiptItem extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $table = 'good_return_note_items';
+    protected $table = 'goods_receipt_items';
 
     protected $fillable = [
-        'good_return_note_id',
-        'good_return_note_number',
-        'delivery_order_id',
-        'delivery_order_item_id',
-        'product_name',
-        'product_desription',
-        'product_price',
-        'delivery_to_address',
-        'delivery_to_name',
-        'status'    
+      'goods_receipt_id',
+      'delivery_order_id',
+      'delivery_order_item_id',
+      'total_item',
+      'total_weight',
+      'total_price',
+      'remarks'  
     ];
 
     /**
-     * Return relation to Good Return Notes
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * setup activity logs
      */
-    public function goodReturnNote()
+    public function getActivityLogOptions(): LogOptions
     {
-        return $this->belongsTo(GoodReturnNotes::class, 'good_return_note_id');
+        return LogOptions::defaults();
     }
 
     /**
-     * Return relation to Delivery Orders
+     * Returns relation to goods receipt
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function goodsReceipt()
+    {
+        return $this->belongsTo(GoodsReceiptHeader::class, 'goods_receipt_id');
+    }
+
+    /**
+     * Returns relation to delivery order
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -48,20 +53,12 @@ class GoodReturnNoteItem extends Model
     }
 
     /**
-     * Relation to Delivery Order Items
+     * Returns relation to delivery order item
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function deliveryOrderItem()
     {
         return $this->belongsTo(DeliveryOrderItem::class, 'delivery_order_item_id');
-    }
-
-    /**
-     * setup activity logs
-     */
-    public function getActivityLogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
     }
 }

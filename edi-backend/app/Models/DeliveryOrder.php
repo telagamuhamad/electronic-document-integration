@@ -15,15 +15,25 @@ class DeliveryOrder extends Model
     protected $table = 'delivery_order_headers';
 
     protected $fillable = [
-        'curier_id',
-        'storage_location_id',
+        'car_id',
+        'travel_document_id',
         'delivery_order_number',
-        'delivery_date',
-        'delivery_order_status',
-        'delivery_type',
-        'total_cost',
-        'created_by_user_id',
-        'created_by_user_name'
+        'sender_name',
+        'sender_phone_number',
+        'sender_address',
+        'receiver_name',
+        'receiver_phone_number',
+        'receiver_address',
+        'total_weight',
+        'status',
+        'remarks',
+        'total_price',
+        'last_updated_by_user_id',
+        'last_updated_by_user_name',
+        'is_delivered',
+        'is_paid',
+        'payment_method',
+        'payment_status'
     ];
 
     /**
@@ -45,13 +55,12 @@ class DeliveryOrder extends Model
     }
 
     /**
-     * Return relation to Curier
+     * Return relation to Car
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function courier()
+    public function car()
     {
-        return $this->belongsTo(Courier::class, 'curier_id', 'id');
+        return $this->belongsTo(Cars::class, 'car_id', 'id');
     }
-
 }

@@ -16,20 +16,10 @@ class DeliveryOrderItem extends Model
 
     protected $fillable = [
         'delivery_order_id',
-        'customer_id',
-        'delivery_order_number',
-        'product_name',
-        'product_description',
-        'quantity',
-        'product_description',
-        'product_weight',
-        'product_dimentions',
-        'product_price',
-        'delivery_to_address',
-        'delivery_to_name',
-        'status',
-        'delivered_at',
-        'delivery_deadline'
+        'total_item',
+        'total_weight',
+        'total_price',
+        'remarks'
     ];
 
     /**

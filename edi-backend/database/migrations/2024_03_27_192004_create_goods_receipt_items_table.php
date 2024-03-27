@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice_items', function (Blueprint $table) {
+        Schema::create('goods_receipt_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_id')->index()->nullable();
-            $table->unsignedBigInteger('delivery_order_id')->index()->nullable();
-            $table->unsignedBigInteger('delivery_order_item_id')->index()->nullable();
-            $table->unsignedBigInteger('goods_receipt_id')->index()->nullable();
-            $table->unsignedBigInteger('goods_receipt_item_id')->index()->nullable();
+            $table->unsignedBigInteger('goods_receipt_id');
+            $table->unsignedBigInteger('delivery_order_id');
+            $table->unsignedBigInteger('delivery_order_item_id');
             $table->decimal('total_item', 28,2)->nullable();
             $table->decimal('total_weight', 28,2)->nullable();
             $table->decimal('total_price', 28,2)->nullable();
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoice_items');
+        Schema::dropIfExists('goods_receipt_items');
     }
 };

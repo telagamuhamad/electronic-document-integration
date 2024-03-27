@@ -13,20 +13,11 @@ return new class extends Migration
     {
         Schema::create('delivery_order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('delivery_order_id')->index()->nullable();
-            $table->unsignedBigInteger('customer_id')->index()->nullable();
-            $table->string('delivery_order_number')->nullable();
-            $table->string('product_name')->nullable();
-            $table->decimal('quantity', 28,2)->nullable();
-            $table->longText('product_description')->nullable();
-            $table->decimal('product_weight', 28, 2)->nullable();
-            $table->string('product_dimentions')->nullable();
-            $table->decimal('product_price', 28, 2)->nullable();
-            $table->longText('delivery_to_address')->nullable();
-            $table->string('delivery_to_name')->nullable();
-            $table->string('status')->nullable();
-            $table->dateTime('delivered_at')->nullable();
-            $table->dateTime('delivery_deadline')->nullable();
+            $table->unsignedBigInteger('delivery_order_id')->nullable()->index();
+            $table->decimal('total_item', 28,2)->nullable();
+            $table->decimal('total_weight', 28,2)->nullable();
+            $table->decimal('total_price', 28,2)->nullable();
+            $table->longText('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

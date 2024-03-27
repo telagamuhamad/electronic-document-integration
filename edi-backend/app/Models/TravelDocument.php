@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Courier extends Model
+class TravelDocument extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $table = 'couriers';
+    protected $table = 'travel_documents';
 
     protected $fillable = [
-        'name_1',
-        'name_2',
         'car_id',
-        'status'  
+        'delivery_order_id',
+        'travel_document_number',
+        'delivery_date'
     ];
 
     /**
@@ -30,12 +30,22 @@ class Courier extends Model
     }
 
     /**
-     * Relation to Car
+     * Return relation to car
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function car()
     {
         return $this->belongsTo(Cars::class, 'car_id', 'id');
+    }
+
+    /**
+     * Return relation to delivery order
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deliveryOrder()
+    {
+        return $this->hasMany(DeliveryOrder::class, 'travel_document_id', 'id');
     }
 }

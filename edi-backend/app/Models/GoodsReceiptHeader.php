@@ -8,23 +8,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Invoices extends Model
+class GoodsReceiptHeader extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $table = 'invoices';
+    protected $table = 'goods_receipt_headers';
 
     protected $fillable = [
         'delivery_order_id',
-        'goods_receipt_id',
-        'invoice_number',
+        'goods_receipt_number',
+        'sender_name',
+        'sender_address',
+        'receiver_name',
+        'receiver_address',
         'total_cost',
-        'payment_method',
-        'payment_status',
-        'is_paid',
-        'is_delivered',
         'delivery_date',
-        'received_date'
+        'received_date',
+        'total_items',
+        'last_updated_by_user_id',
+        'last_updated_by_user_name',
+        'is_delivered',
+        'is_paid',
+        'payment_method',
+        'payment_status'
     ];
 
     /**
@@ -36,8 +42,9 @@ class Invoices extends Model
     }
 
     /**
-     * Return relation to Delivery Order
+     * Returns relation to Delivery Order
      * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function deliveryOrder()
     {
@@ -45,21 +52,12 @@ class Invoices extends Model
     }
 
     /**
-     * Return relation to Goods Receipt
-     * 
-     */
-    public function goodsReceipt()
-    {
-        return $this->belongsTo(GoodsReceiptHeader::class, 'goods_receipt_id');
-    }
-
-    /**
-     * Returns relation to items
+     * Returns relation to goods receipt items
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function items()
     {
-        return $this->hasMany(InvoiceItem::class, 'invoice_id');
+        return $this->hasMany(GoodsReceiptItem::class, 'goods_receipt_id');
     }
 }

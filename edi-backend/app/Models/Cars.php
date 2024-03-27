@@ -15,12 +15,12 @@ class Cars extends Model
     protected $table = 'cars';
 
     protected $fillable = [
-        'type',
-        'vin_nummber',
-        'license_plate_number',
+        'license_plate',
+        'driver_name_1',
+        'driver_name_2',
         'capacity',
-        'is_available',
-        'is_full'
+        'is_fulfilled',
+        'is_departed'
     ];
 
     /**

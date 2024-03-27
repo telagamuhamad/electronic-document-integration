@@ -19,11 +19,12 @@ class InvoiceItem extends Model
         'invoice_number',
         'delivery_order_id',
         'delivery_order_item_id',
-        'good_return_note_id',
-        'good_return_note_item_id',
-        'price',
-        'payment_method',
-        'is_paid'
+        'goods_receipt_id',
+        'goods_receipt_item_id',
+        'total_item',
+        'total_weight',
+        'total_price',
+        'remarks'
     ];
 
     /**
@@ -33,7 +34,25 @@ class InvoiceItem extends Model
      */
     public function invoice()
     {
-        return $this->belongsTo(Invoices::class);
+        return $this->belongsTo(Invoices::class, 'invoice_id');
+    }
+
+    /**
+     * Return relation to Delivery Order
+     * 
+     */
+    public function deliveryOrder()
+    {
+        return $this->belongsTo(DeliveryOrder::class, 'delivery_order_id');
+    }
+
+    /**
+     * Return relation to Goods Receipt
+     * 
+     */
+    public function goodsReceipt()
+    {
+        return $this->belongsTo(GoodsReceiptHeader::class, 'goods_receipt_id');
     }
 
     /**
@@ -43,17 +62,17 @@ class InvoiceItem extends Model
      */
     public function deliveryOrderItem()
     {
-        return $this->belongsTo(DeliveryOrderItem::class);
+        return $this->belongsTo(DeliveryOrderItem::class, 'delivery_order_item_id');
     }
 
     /**
-     * Return Relation to GoodReturnNoteItem
+     * Return relation to GoodsReceiptItem
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function goodReturnNoteItem()
+    public function goodsReceiptItem()
     {
-        return $this->belongsTo(GoodReturnNoteItem::class);
+        return $this->belongsTo(GoodsReceiptItem::class, 'goods_receipt_item_id');
     }
 
     /**
@@ -63,4 +82,5 @@ class InvoiceItem extends Model
     {
         return LogOptions::defaults();
     }
+    
 }
