@@ -12,6 +12,7 @@ Route::prefix('edi')->name('edi.')->group(function () {
         Route::get('/', [DeliveryOrderController::class, 'index'])->name('index'); 
         Route::get('show/{id}', [DeliveryOrderController::class, 'show'])->name('show');
         Route::get('create', [DeliveryOrderController::class, 'create'])->name('create');
+        Route::post('store', [DeliveryOrderController::class, 'store'])->name('store');
     });
 
     Route::prefix('good-return-note')->name('good-return-note.')->group(function () {

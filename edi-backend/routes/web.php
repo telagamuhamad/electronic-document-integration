@@ -28,5 +28,5 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 
 // Admin
 Route::prefix('admin')->name('admin.')->group(function () {
-    require_once __DIR__.'/web/admin.php';
+    require_once __DIR__.'/Web/admin.php';
 });

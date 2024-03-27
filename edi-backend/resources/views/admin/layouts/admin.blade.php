@@ -43,7 +43,7 @@
                         <a class="active-menu" href="{{ route('home') }}"><i class="fa fa-square-o fa-3x"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Pengiriman<span
+                        <a href="#"><i class="fa fa-fast-forward fa-3x"></i> Pengiriman<span
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -58,13 +58,13 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="chart.html"><i class="fa fa-truck fa-3x"></i> Mobil</a>
+                    </li>
+                    <li>
+                        <a href="tab-panel.html"><i class="fa fa-file-text fa-3x"></i> Surat Jalan</a>
+                    </li>
+                    <li>
                         <a href="ui.html"><i class="fa fa-desktop fa-3x"></i> Manajemen User</a>
-                    </li>
-                    <li>
-                        <a href="tab-panel.html"><i class="fa fa-qrcode fa-3x"></i> Layanan & Promosi</a>
-                    </li>
-                    <li>
-                        <a href="chart.html"><i class="fa fa-bar-chart-o fa-3x"></i> Morris Charts</a>
                     </li>
                     <li>
                         <a href="table.html"><i class="fa fa-table fa-3x"></i> Table Examples</a>
