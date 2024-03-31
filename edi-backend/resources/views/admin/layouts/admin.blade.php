@@ -13,6 +13,28 @@
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <style>
+        .callout-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .callout-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,10 +80,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="chart.html"><i class="fa fa-truck fa-3x"></i> Mobil</a>
+                        <a href="{{ route('admin.edi.car.index') }}"><i class="fa fa-truck fa-3x"></i> Mobil</a>
                     </li>
                     <li>
-                        <a href="tab-panel.html"><i class="fa fa-file-text fa-3x"></i> Surat Jalan</a>
+                        <a href="{{ route('admin.edi.travel-document.index') }}"><i class="fa fa-file-text fa-3x"></i> Surat Jalan</a>
                     </li>
                     <li>
                         <a href="ui.html"><i class="fa fa-desktop fa-3x"></i> Manajemen User</a>
@@ -89,6 +111,7 @@
     @yield('scripts')
     <!-- JQUERY SCRIPTS -->
     <script src="{{ asset('assets/js/jquery-1.10.2.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <!-- METISMENU SCRIPTS -->

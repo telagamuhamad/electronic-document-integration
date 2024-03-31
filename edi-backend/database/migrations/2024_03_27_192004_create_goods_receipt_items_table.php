@@ -16,10 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('goods_receipt_id');
             $table->unsignedBigInteger('delivery_order_id');
             $table->unsignedBigInteger('delivery_order_item_id');
-            $table->decimal('total_item', 28,2)->nullable();
-            $table->decimal('total_weight', 28,2)->nullable();
-            $table->decimal('total_price', 28,2)->nullable();
-            $table->longText('remarks')->nullable();
+            $table->string('item_code')->nullable();
+            $table->decimal('item_weight', 28,2)->nullable();
+            $table->decimal('item_price', 28,2)->nullable();
+            $table->longText('description')->nullable();
+            $table->boolean('is_fragile')->nullable()->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

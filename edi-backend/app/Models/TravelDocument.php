@@ -44,7 +44,7 @@ class TravelDocument extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function deliveryOrder()
+    public function deliveryOrders()
     {
         return $this->hasMany(DeliveryOrder::class, 'travel_document_id', 'id');
     }

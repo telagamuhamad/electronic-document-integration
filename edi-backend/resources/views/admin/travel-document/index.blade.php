@@ -16,40 +16,35 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            Pengiriman Barang
+            Surat Jalan
         </div>
         <div class="panel-body">
-            <a href="{{ route('admin.edi.delivery-order.create') }}" class="btn btn-success" style="margin-bottom: 10px; float: right">Pengiriman Baru</a href="{{ route('admin.edi.delivery-order.create') }}">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
                             <th class="text-center">No</th>
-                            <th class="text-center">Nomor Pengiriman</th>
-                            <th class="text-center">Status Pengiriman</th>
+                            <th class="text-center">Nomor Surat Jalan</th>
                             <th class="text-center">Mobil</th>
                             <th class="text-center">Kurir</th>
-                            <th class="text-center">Surat Jalan</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($deliveryOrders) <= 0)
+                        @if (count($travel_documents) <= 0)
                             <tr>
-                                <td colspan="7" class="text-center">Tidak ada data</td>
+                                <td colspan="5" class="text-center">Tidak ada data</td>
                             </tr>
                         @endif
-                        @foreach ($deliveryOrders as $index => $deliveryOrder)
+                        @foreach ($travel_documents as $index => $travel_document)
                             <tr>
-                                <td>{{ $deliveryOrders->firstItem() + $index }}</td>
-                                <td>{{ $deliveryOrder->delivery_order_number ?? '-'}}</td>
-                                <td>{{ $deliveryOrder->status ?? '-' }}</td>
-                                <td>{{ !empty($deliveryOrder->car) ? $deliveryOrder->car->license_plate : '-' }}</td>
-                                <td>{{ !empty($deliveryOrder->car) ? $deliveryOrder->car->driver_name_1 : '-' }} | {{ !empty($deliveryOrder->car) ? $deliveryOrder->car->driver_name_2 : '-' }}</td>
-                                <td>{{ !empty($deliveryOrder->travelDocument) ? $deliveryOrder->travelDocument->travel_document_number : '-' }}</td>
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $travel_document->travel_document_number }}</td>
+                                <td class="text-center">{{ $travel_document->car->license_plate ?? '' }}</td>
+                                <td class="text-center">{{ $travel_document->car->driver_name_1 ?? '' }} - {{ $travel_document->car->driver_name_2 ?? '' }}</td>
                                 <td>
-                                    <a href="{{ route('admin.edi.delivery-order.show', [
-                                        'id' => $deliveryOrder->id
+                                    <a href="{{ route('admin.edi.travel-document.show', [
+                                        'id' => $travel_document->id
                                     ]) }}" class="btn btn-primary btn-sm">Detail</a>
                                     <a href="#" class="btn btn-danger btn-sm">Hapus</a>
                                 </td>
@@ -60,7 +55,7 @@
             </div>
             <!-- Pagination -->
             <nav class='mT-20'>
-                {!! $deliveryOrders->appends($_GET)->links() !!}
+                {!! $travel_documents->appends($_GET)->links() !!}
             </nav>
         </div>
     </div>

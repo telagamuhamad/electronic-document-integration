@@ -63,4 +63,14 @@ class DeliveryOrder extends Model
     {
         return $this->belongsTo(Cars::class, 'car_id', 'id');
     }
+
+    /**
+     * Return relation to travel document
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function travelDocument()
+    {
+        return $this->belongsTo(TravelDocument::class, 'travel_document_id', 'id');
+    }
 }

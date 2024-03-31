@@ -34,26 +34,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($goodReturnNotes) <= 0)
+                        @if (count($goods_receipt_headers) <= 0)
                             <tr>
                                 <td colspan="9" class="text-center">Tidak ada data</td>
                             </tr>
                         @endif
-                        @foreach ($goodReturnNotes as $index => $goodReturnNote)
+                        @foreach ($goods_receipt_headers as $index => $gr)
                             <tr>
-                                <td>{{ $goodReturnNotes->firstItem() + $index }}</td>
-                                <td>{{ $goodReturnNote->delivery_order_number ?? '-'}}</td>
-                                <td>{{ $goodReturnNote->good_return_note_number ?? '-'}}</td>
-                                <td>{{ $goodReturnNote->delivery_date ?? '-'}}</td>
-                                <td>{{ $goodReturnNote->delivery_from ?? '-' }}</td>
-                                <td>{{ $goodReturnNote->delivery_to ?? '-' }}</td>
-                                <td>{{ $goodReturnNote->total_cost ?? '-' }}</td>
-                                <td>{{ $goodReturnNote->status ?? '-' }}</td>
+                                <td>{{ $goods_receipt_headers->firstItem() + $index }}</td>
+                                <td>{{ !empty($gr->deliveryOrder) ? $gr->deliveryOrder->delivery_order_number : '-' }}</td>
+                                <td>{{ $gr->goods_receipt_number ?? '-'}}</td>
+                                <td>{{ $gr->delivery_date ?? '-'}}</td>
+                                <td>{{ $gr->sender_name ?? '-' }} - {{ $gr->sender_address ?? '-' }}</td>
+                                <td>{{ $gr->receiver_name ?? '-' }} - {{ $gr->receiver_address ?? '-' }}</td>
+                                <td>{{ $gr->total_cost ?? '-' }}</td>
+                                <td>{{ !empty($gr->deliveryOrder) ? $gr->deliveryOrder->status : '' }}</td>
                                 <td>
                                     <a href="{{ route('admin.edi.good-return-note.show', [
-                                        'id' => $goodReturnNote->id
-                                    ]) }}" class="btn btn-primary btn-sm">Detail</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                                        'id' => $gr->id
+                                    ]) }}" class="btn btn-primary btn-xs">Detail</a>
+                                    <a href="#" class="btn btn-danger btn-xs">Hapus</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -63,7 +63,7 @@
 
             <!-- Pagination -->
             <nav class='mT-20'>
-                {!! $goodReturnNotes->appends($_GET)->links() !!}
+                {!! $goods_receipt_headers->appends($_GET)->links() !!}
             </nav>
         </div>
     </div>

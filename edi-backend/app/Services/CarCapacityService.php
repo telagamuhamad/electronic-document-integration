@@ -6,11 +6,15 @@ use App\Models\Cars;
 
 class CarCapacityService 
 {
-    public function countCarCapacity($carId)
+    public static function countCarCapacity($carId, $totalItemWeight)
     {
         $car = Cars::find($carId);
         if (!empty($car)) {
-            $carCapacity = $car->capacity;
+            $car->capacity = $car->capacity - $totalItemWeight;
+
+            // update car capacity based on total item weight
+            $car->is_fulfilled = $car->capacity <= 0 ? 1 : 0;
+            $car->save();
         }
     }
 }

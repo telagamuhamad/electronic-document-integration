@@ -29,6 +29,7 @@ return new class extends Migration
             $table->boolean('is_paid')->default(false);
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
+            $table->decimal('total_weight', 28,2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

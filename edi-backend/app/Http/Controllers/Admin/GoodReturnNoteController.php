@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\GoodReturnNotes;
+use App\Models\GoodsReceiptHeader;
+use App\Models\GoodsReceiptItem;
 use Illuminate\Http\Request;
 
 class GoodReturnNoteController extends Controller
@@ -15,10 +16,10 @@ class GoodReturnNoteController extends Controller
      */
     public function index()
     {
-        $goodReturnNotes = GoodReturnNotes::orderBy('id', 'desc')->paginate(10);
+        $goodsReceiptHeaders = GoodsReceiptHeader::orderBy('id', 'desc')->paginate(10);
 
         return view('admin.good-return-note.index', [
-            'goodReturnNotes' => $goodReturnNotes
+            'goods_receipt_headers' => $goodsReceiptHeaders
         ]);
     }
 
@@ -30,13 +31,16 @@ class GoodReturnNoteController extends Controller
      */
     public function show($id)
     {
-        $goodReturnNote = GoodReturnNotes::find($id);
-        if (empty($goodReturnNote)) {
+        $goodsReceiptHeader = GoodsReceiptHeader::find($id);
+        if (empty($goodsReceiptHeader)) {
             return redirect()->back()->with('error_message', 'Good return note not found');
         }
 
+        $goodsReceiptItems = GoodsReceiptItem::where('goods_receipt_id', $goodsReceiptHeader->id)->get();
+
         return view('admin.good-return-note.show', [
-            'goodReturnNote' => $goodReturnNote
+            'goods_receipt_header' => $goodsReceiptHeader,
+            'goods_receipt_items' => $goodsReceiptItems
         ]);
     }
 }

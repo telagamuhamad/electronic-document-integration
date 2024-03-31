@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('delivery_order_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('delivery_order_id')->nullable()->index();
-            $table->decimal('total_item', 28,2)->nullable();
-            $table->decimal('total_weight', 28,2)->nullable();
-            $table->decimal('total_price', 28,2)->nullable();
-            $table->longText('remarks')->nullable();
+            $table->string('item_code')->nullable();
+            $table->decimal('item_weight', 28,2)->nullable();
+            $table->decimal('item_price', 28,2)->nullable();
+            $table->longText('description')->nullable();
+            $table->boolean('is_fragile')->nullable()->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,40 +15,32 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            Detail Tanda Terima
+            Detail Pengiriman
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="text-center" colspan="2">Data Tanda Terima</th>
+                            <th class="text-center" colspan="2">Data Pengiriman</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Nama Pengirim</td>
-                            <td>{{ $goods_receipt_header->sender_name }}</td>
+                            <td>{{ $delivery_order->sender_name }}</td>
                         </tr>
                         <tr>
                             <td>Kontak dan Alamat Pengirim</td>
-                            <td>{{ $goods_receipt_header->deliveryOrder->sender_phone_number ?? ''}} | {{ $goods_receipt_header->sender_address }}</td>
+                            <td>{{ $delivery_order->sender_phone_number }} | {{ $delivery_order->sender_address }}</td>
                         </tr>
                         <tr>
                             <td>Nama Penerima</td>
-                            <td>{{ $goods_receipt_header->receiver_name }}</td>
+                            <td>{{ $delivery_order->receiver_name }}</td>
                         </tr>
                         <tr>
                             <td>Kontak dan Alamat Penerima</td>
-                            <td>{{ $goods_receipt_header->deliveryOrder->receiver_phone_number ?? ''}} | {{ $goods_receipt_header->receiver_address }}</td>
-                        </tr>
-                        <tr>
-                            <td>Nomor Permintaan Pengiriman</td>
-                            <td>{{ $goods_receipt_header->deliveryOrder->delivery_order_number ?? ''}}</td>
-                        </tr>
-                        <tr>
-                            <td>Nomor Tanda Terima</td>
-                            <td>{{ $goods_receipt_header->goods_receipt_number }}</td>
+                            <td>{{ $delivery_order->receiver_phone_number }} | {{ $delivery_order->receiver_address }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -67,12 +59,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count ($goods_receipt_items) <= 0)
+                        @if (count ($delivery_order_items) <= 0)
                             <tr>
                                 <td colspan="7" class="text-center">Tidak ada data</td>
                             </tr>
                         @endif
-                        @foreach ($goods_receipt_items as $index => $item)
+                        @foreach ($delivery_order_items as $index => $item)
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
                                 <td class="text-center">{{ $item->item_code ?? '' }}</td>
