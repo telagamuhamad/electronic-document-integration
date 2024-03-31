@@ -113,24 +113,6 @@ class DeliveryOrderController extends Controller
             $deliveryOrder->total_price = $request->total_cost;
             $deliveryOrder->save();
 
-            // check car to generate travel document
-            $travelDocument = TravelDocument::where('car_id', $request->car_id)->first();
-            if (empty($travelDocument)) {
-                $travelDocument = new TravelDocument();
-                $travelDocument->car_id = $request->car_id;
-                $travelDocument->delivery_order_id = $deliveryOrder->id;
-                $travelDocument->travel_document_number = 'TD-' . date('Ymd') . '-' . rand(100000, 999999);
-                $travelDocument->save();
-            } else {
-                $travelDocument->car_id = $request->car_id;
-                $travelDocument->delivery_order_id = $deliveryOrder->id;
-                $travelDocument->travel_document_number = $travelDocument->travel_document_number;
-                $travelDocument->save();
-            }
-
-            $deliveryOrder->travel_document_id = $travelDocument->id;
-            $deliveryOrder->save();
-    
             // Save items
             $total_cost = 0;
     
@@ -150,7 +132,7 @@ class DeliveryOrderController extends Controller
             CarCapacityService::countCarCapacity($deliveryOrder->car_id, $deliveryOrder->total_weight);
     
         } catch (\Exception $e) {
-            return redirect()->back()->with('error_message', $e->getMessage());
+            return redirect()->back()->with('error_message', $e->getLine());
         }
 
         return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Delivery order created successfully');
@@ -189,6 +171,24 @@ class DeliveryOrderController extends Controller
             $goodsReceiptHeader->last_updated_by_user_id = $user->id;
             $goodsReceiptHeader->last_updated_by_user_name = $user->name;
             $goodsReceiptHeader->save();
+
+            // check car to generate travel document
+            $travelDocument = TravelDocument::where('car_id', $deliveryOrder->car_id)->first();
+            if (empty($travelDocument)) {
+                $travelDocument = new TravelDocument();
+                $travelDocument->car_id = $deliveryOrder->car_id;
+                $travelDocument->delivery_order_id = $deliveryOrder->id;
+                $travelDocument->travel_document_number = 'TD-' . date('Ymd') . '-' . rand(100000, 999999);
+                $travelDocument->save();
+            } else {
+                $travelDocument->car_id = $deliveryOrder->car_id;
+                $travelDocument->delivery_order_id = $deliveryOrder->id;
+                $travelDocument->travel_document_number = $travelDocument->travel_document_number;
+                $travelDocument->save();
+            }
+
+            $deliveryOrder->travel_document_id = $travelDocument->id;
+            $deliveryOrder->save();
     
             // Save items
             if (!empty ($deliveryOrder->items)) {
