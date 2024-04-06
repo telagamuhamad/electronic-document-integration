@@ -108,7 +108,6 @@
         </div>
     </div>
 
-    @yield('scripts')
     <!-- JQUERY SCRIPTS -->
     <script src="{{ asset('assets/js/jquery-1.10.2.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -118,6 +117,8 @@
     <script src="{{ asset('assets/js/jquery.metisMenu.js') }}"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    @yield('scripts')
 
 
 </body>

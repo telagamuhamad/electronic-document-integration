@@ -21,10 +21,11 @@ class InvoiceItem extends Model
         'delivery_order_item_id',
         'goods_receipt_id',
         'goods_receipt_item_id',
-        'total_item',
-        'total_weight',
-        'total_price',
-        'remarks'
+        'item_code',
+        'item_weight',
+        'item_price',
+        'description',
+        'is_fragile',
     ];
 
     /**

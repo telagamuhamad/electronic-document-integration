@@ -21,11 +21,13 @@ Route::prefix('edi')->name('edi.')->group(function () {
     Route::prefix('good-return-note')->name('good-return-note.')->group(function () {
         Route::get('/', [GoodReturnNoteController::class, 'index'])->name('index');
         Route::get('show/{id}', [GoodReturnNoteController::class, 'show'])->name('show');
+        Route::get('convert/{id}', [GoodReturnNoteController::class, 'convertToInvoice'])->name('convert');
     });
 
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('index');
         Route::get('show/{id}', [InvoiceController::class, 'show'])->name('show');
+        Route::put('confirm-payment/{id}', [InvoiceController::class, 'confirmPayment'])->name('confirm-payment');
     });
 
     Route::prefix('car')->name('car.')->group(function () {

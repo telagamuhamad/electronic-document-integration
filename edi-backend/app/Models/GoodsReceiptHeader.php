@@ -31,7 +31,8 @@ class GoodsReceiptHeader extends Model
         'is_paid',
         'payment_method',
         'payment_status',
-        'total_weight'
+        'total_weight',
+        'is_invoice_created'
     ];
 
     /**

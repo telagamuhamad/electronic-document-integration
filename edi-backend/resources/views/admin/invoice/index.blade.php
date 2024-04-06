@@ -23,11 +23,10 @@
                         <tr>
                             <th class="text-center">No</th>
                             <th class="text-center">Nomor Pengiriman</th>
-                            <th class="text-center">Tanggal Pengiriman</th>
-                            <th class="text-center">Asal Pengiriman</th>
-                            <th class="text-center">Tujuan Pengiriman</th>
+                            <th class="text-center">Nomor Tanda Terima</th>
+                            <th class="text-center">Status Pengiriman</th>
                             <th class="text-center">Total Harga</th>
-                            <th class="text-center">Status</th>
+                            <th class="text-center">Status Pembayaran</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -41,11 +40,10 @@
                             <tr>
                                 <td>{{ $invoices->firstItem() + $index }}</td>
                                 <td>{{ !empty($invoice->deliveryOrder) ? $invoice->deliveryOrder->delivery_order_number : '-' }}</td>
-                                <td>{{ !empty($invoice->deliveryOrder) ? $invoice->deliveryOrder->delivery_date : '-' }}</td>
-                                <td>{{ !empty($invoice->goodReturnNote) ? $invoice->goodReturnNote->delivery_from : '-' }}</td>
-                                <td>{{ !empty($invoice->goodReturnNote) ? $invoice->goodReturnNote->delivery_to : '-' }}</td>
+                                <td>{{ !empty($invoice->goodsReceipt) ? $invoice->goodsReceipt->goods_receipt_number : '-' }}</td>
+                                <td>{{ $invoice->formatted_delivery_status ?? '' }}</td>
                                 <td>{{ $invoice->total_cost ?? '-' }}</td>
-                                <td>{{ $invoice->status ?? '-' }}</td>
+                                <td>{{ $invoice->formatted_payment_status ?? ''}}</td>
                                 <td>
                                     <a href="{{ route('admin.edi.good-return-note.show', [
                                         'id' => $invoice->id

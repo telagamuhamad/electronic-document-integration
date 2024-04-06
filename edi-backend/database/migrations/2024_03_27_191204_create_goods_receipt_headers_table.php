@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
             $table->decimal('total_weight', 28,2)->nullable();
+            $table->boolean('is_invoice_created')->nullable()->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

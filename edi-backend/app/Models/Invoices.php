@@ -27,6 +27,11 @@ class Invoices extends Model
         'received_date'
     ];
 
+    protected $appends = [
+        'formatted_delivery_status',
+        'formatted_payment_status'
+    ];
+
     /**
      * setup activity logs
      */
@@ -61,5 +66,29 @@ class Invoices extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class, 'invoice_id');
+    }
+
+    /**
+     * Return formatted delivery status
+     */
+    public function getFormattedDeliveryStatusAttribute()
+    {
+        if ($this->is_delivered) {
+            return 'Telah Diterima';
+        } else {
+            return 'Belum Diterima';
+        }
+    }
+
+    /**
+     * Return formatted payment status
+     */
+    public function getFormattedPaymentStatusAttribute()
+    {
+        if ($this->is_paid) {
+            return 'Lunas';
+        } else {
+            return 'Belum Lunas';
+        }
     }
 }
