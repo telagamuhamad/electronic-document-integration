@@ -22,7 +22,7 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="text-center" colspan="2">Data Tanda Terima</th>
+                            <th class="text-center" colspan="2">Data Pengiriman</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,6 +49,10 @@
                         <tr>
                             <td>Nomor Tanda Terima</td>
                             <td>{{ !empty($invoice->goodsReceipt) ? $invoice->goodsReceipt->goods_receipt_number : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nomor Invoice</td>
+                            <td>{{ $invoice->invoice_number ?? '' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -86,11 +90,82 @@
                         </tr>
                     </tbody>
                 </table>
-                <form action="{{ route('admin.edi.invoice.confirm-payment', [
-                        'id' => $invoice->id
-                    ])}}" method="POST" id="payment-form" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+                @if (!$invoice->is_paid)
+                    <form action="{{ route('admin.edi.invoice.confirm-payment', [
+                            'id' => $invoice->id
+                        ])}}" method="POST" id="payment-form" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="2">Pembayaran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">Status Pembayaran</td>
+                                    <td class="text-center">{{ $invoice->formatted_payment_status ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">Total Harus Dibayar</td>
+                                    <td class="text-center">{{ number_format($invoice->total_cost, 2) ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">Metode Pembayaran</td>
+                                    <td>
+                                        <select name="payment_method" id="payment_method" class="form-control">
+                                            <option value="">Pilih Metode</option>
+                                            <option value="Cash">Tunai</option>
+                                            <option value="Transfer">Transfer</option>
+                                        </select>
+                                        @error('payment_method')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr id="payment_input">
+                                    <td class="text-center">Jumlah Pembayaran</td>
+                                    <td>
+                                        <input type="number" name="payment_amount" id="payment_amount" class="form-control" onchange="calculatePaymentChangeAmount()">
+                                        @error('payment_amount')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr id="payment_change">
+                                    <td class="text-center">Kembalian</td>
+                                    <td>
+                                        <input type="number" name="payment_change_input" id="payment_change_input" class="form-control" readonly>
+                                        @error('payment_change_input')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr id="payment_upload">
+                                    <td class="text-center">Upload Bukti</td>
+                                    <td>
+                                        <input type="file" name="payment_image" id="payment_image" class="form-control">
+                                        @error('payment_image')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right"><button type="submit" class="btn btn-success">Konfirmasi</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                @else
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -99,67 +174,38 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="text-center">Status Pembayaran</td>
+                                <td class="text-right">Status Pembayaran</td>
                                 <td class="text-center">{{ $invoice->formatted_payment_status ?? '' }}</td>
                             </tr>
                             <tr>
-                                <td class="text-center">Total Harus Dibayar</td>
+                                <td class="text-right">Total Harus Dibayar</td>
                                 <td class="text-center">{{ number_format($invoice->total_cost, 2) ?? '' }}</td>
                             </tr>
                             <tr>
-                                <td class="text-center">Metode Pembayaran</td>
-                                <td>
-                                    <select name="payment_method" id="payment_method" class="form-control">
-                                        <option value="">Pilih Metode</option>
-                                        <option value="Cash">Tunai</option>
-                                        <option value="Transfer">Transfer</option>
-                                    </select>
-                                    @error('payment_method')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </td>
+                                <td class="text-right">Metode Pembayaran</td>
+                                <td class="text-center">{{ $invoice->formatted_payment_method ?? '' }}</td>
                             </tr>
-                            <tr id="payment_input">
-                                <td class="text-center">Jumlah Pembayaran</td>
-                                <td>
-                                    <input type="number" name="payment_amount" id="payment_amount" class="form-control" onchange="calculatePaymentChangeAmount()">
-                                    @error('payment_amount')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </td>
-                            </tr>
-                            <tr id="payment_change">
-                                <td class="text-center">Kembalian</td>
-                                <td>
-                                    <input type="number" name="payment_change_input" id="payment_change_input" class="form-control" readonly>
-                                    @error('payment_change_input')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </td>
-                            </tr>
-                            <tr id="payment_upload">
-                                <td class="text-center">Upload Bukti</td>
-                                <td>
-                                    <input type="file" name="payment_image" id="payment_image" class="form-control">
-                                    @error('payment_image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-right"><button type="submit" class="btn btn-success">Konfirmasi</button></td>
-                            </tr>
+                            @if (empty($invoice->payment_document))
+                                <tr>
+                                    <td class="text-right">Jumlah Pembayaran</td>
+                                    <td class="text-center">{{ number_format($invoice->paid_amount, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">Kembalian</td>
+                                    <td class="text-center">{{ number_format($invoice->payment_change, 2) }}</td>
+                                </tr>
+                            @endif
+                            @if (!empty($invoice->payment_document))
+                                <tr>
+                                    <td class="text-right">Bukti Pembayaran</td>
+                                    <td class="text-center">
+                                        <a href="">Lihat Dokumen</a>
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
-                </form>
+                @endif
             </div>
         </div>
     </div>

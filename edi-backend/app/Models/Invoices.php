@@ -91,4 +91,16 @@ class Invoices extends Model
             return 'Belum Lunas';
         }
     }
+
+    /**
+     * Return formatted payment method
+     */
+    public function getFormattedPaymentMethodAttribute()
+    {
+        if ($this->payment_method == 'Cash') {
+            return 'Tunai';
+        } else {
+            return 'Transfer';
+        }
+    }
 }
