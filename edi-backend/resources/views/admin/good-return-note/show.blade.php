@@ -88,7 +88,7 @@
             @if (!$goods_receipt_header->is_invoice_created)
                 <a href="{{ route('admin.edi.good-return-note.convert', [
                     'id' => $goods_receipt_header->id
-                ]) }}" class="btn btn-success" id="btn-convert" style="float: right">Buat Invoice</a>
+                ]) }}" class="btn btn-success" id="btn-convert" onclick="return confirmConversion()" style="float: right">Buat Invoice</a>
             @endif
         </div>
     </div>
@@ -96,11 +96,8 @@
 
 @section('scripts')
     <script>
-        $('#btn-convert').on('click', function () {
-            e.preventDefault();
-            if (confirm('Apakah Anda yakin ingin membuat invoice?')) {
-                window.location.href = $(this).attr('href');
-            }  
-        })
+        function confirmConversion() {
+            return confirm("Apakah Anda yakin ingin membuat invoice?");
+        }
     </script>
 @stop

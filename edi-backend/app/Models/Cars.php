@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use BaconQrCode\Encoder\QrCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use SimpleSoftwareIO\QrCode\Facades\QrCode as FacadesQrCode;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -25,7 +27,8 @@ class Cars extends Model
 
     protected $appends = [
         'formatted_capacity_status',
-        'formatted_departure_status'
+        'formatted_departure_status',
+        'qr_code'
     ];
 
     /**
@@ -52,5 +55,15 @@ class Cars extends Model
     public function getFormattedDepartureStatusAttribute()
     {
         return $this->is_departed ? 'Dalam Perjalanan' : 'Belum Berangkat';
+    }
+
+    /**
+     * Generate QR Code
+     */
+    public function getQrCodeAttribute()
+    {
+        $licensePlate = $this->license_plate;
+
+        return FacadesQrCode::size(200)->generate($licensePlate);
     }
 }

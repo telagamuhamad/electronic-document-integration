@@ -63,9 +63,11 @@ class InvoiceController extends Controller
             $invoice->payment_status = 'Paid';
             $invoice->payment_method = $request->payment_method;
             $invoice->is_paid = true;
-            if ($request->hasFile('payment_upload')) {
-                $invoice->payment_upload = $request->file('payment_upload')->store('invoice/payment_upload/'.$invoice->invoice_number);
+            $path = null;
+            if ($request->hasFile('payment_image')) {
+                $path = $request->file('payment_image')->store('public/invoice/payment_upload/'.$invoice->invoice_number);
             }
+            $invoice->payment_document = $path;
             $invoice->payment_date = $dateNow;
             $invoice->save();
         } catch (\Exception $e) {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\TravelDocumentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('edi')->name('edi.')->group(function () {
@@ -43,5 +44,14 @@ Route::prefix('edi')->name('edi.')->group(function () {
         Route::get('/', [TravelDocumentController::class, 'index'])->name('index');
         Route::get('show/{id}', [TravelDocumentController::class, 'show'])->name('show');
         Route::get('show-item/{id}', [TravelDocumentController::class, 'showItem'])->name('show-item');
+    });
+
+    Route::prefix('user-access-management')->name('user-access-management.')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('index');
+        Route::get('show/{id}', [UserManagementController::class, 'show'])->name('show');
+        Route::get('create', [UserManagementController::class, 'create'])->name('create');
+        Route::post('store', [UserManagementController::class, 'store'])->name('store');
+        Route::put('update', [UserManagementController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [UserManagementController::class, 'destroy'])->name('destroy');
     });
 });

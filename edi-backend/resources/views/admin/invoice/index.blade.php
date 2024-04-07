@@ -45,7 +45,7 @@
                                 <td>{{ $invoice->total_cost ?? '-' }}</td>
                                 <td>{{ $invoice->formatted_payment_status ?? ''}}</td>
                                 <td>
-                                    <a href="{{ route('admin.edi.good-return-note.show', [
+                                    <a href="{{ route('admin.edi.invoice.show', [
                                         'id' => $invoice->id
                                     ]) }}" class="btn btn-primary btn-sm">Detail</a>
                                     <a href="#" class="btn btn-danger btn-sm">Hapus</a>

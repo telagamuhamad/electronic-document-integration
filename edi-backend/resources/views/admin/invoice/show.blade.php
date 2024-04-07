@@ -151,7 +151,7 @@
                                 <tr id="payment_upload">
                                     <td class="text-center">Upload Bukti</td>
                                     <td>
-                                        <input type="file" name="payment_image" id="payment_image" class="form-control">
+                                        <input type="file" name="payment_image" id="payment_image" accept="image/*" class="form-control">
                                         @error('payment_image')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -199,7 +199,8 @@
                                 <tr>
                                     <td class="text-right">Bukti Pembayaran</td>
                                     <td class="text-center">
-                                        <a href="">Lihat Dokumen</a>
+                                        {{-- <a href="{{ url('storage/'.$invoice->payment_upload) }}" target="_blank">Lihat Dokumen</a> --}}
+                                        <img src="{{ url('storage/'.$invoice->payment_document) }}" alt="">
                                     </td>
                                 </tr>
                             @endif

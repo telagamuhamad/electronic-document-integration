@@ -53,8 +53,7 @@
                 padding: 15px 50px 5px 50px;
                 float: right;
                 font-size: 16px;"> 
-                Last access : 30 May
-                2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> 
+                {{ auth()->user()->name }} &nbsp; <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -85,12 +84,11 @@
                     <li>
                         <a href="{{ route('admin.edi.travel-document.index') }}"><i class="fa fa-file-text fa-3x"></i> Surat Jalan</a>
                     </li>
-                    <li>
-                        <a href="ui.html"><i class="fa fa-desktop fa-3x"></i> Manajemen User</a>
-                    </li>
-                    <li>
-                        <a href="table.html"><i class="fa fa-table fa-3x"></i> Table Examples</a>
-                    </li>
+                    @if (auth()->user()->role == 'Super Admin')
+                        <li>
+                            <a href="{{ route('admin.edi.user-access-management.index') }}"><i class="fa fa-desktop fa-3x"></i> Manajemen User</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </nav>

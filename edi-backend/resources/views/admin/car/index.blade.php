@@ -29,6 +29,7 @@
                             <th class="text-center">Nama Supir 2</th>
                             <th class="text-center">Kapasitas (Kg)</th>
                             <th class="text-center">Status</th>
+                            <th class="text-center">Kode QR</th>
                             <th class="text-center">Opsi</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                                 <td class="text-center">{{ $car->driver_name_2 }}</td>
                                 <td class="text-center">{{ number_format($car->capacity, 0) }}</td>
                                 <td class="text-center">{{ $car->formatted_capacity_status }} | {{ $car->formatted_departure_status }}</td>
+                                <td id="qr-code">{{ $car->qr_code }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.edi.car.edit', [
                                         'id' => $car->id
@@ -74,5 +76,41 @@
         function confirmDelete() {
             return confirm("Apakah Anda yakin ingin menghapus mobil ini?");
         }
+    </script>
+    <script>
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#scanner'),
+            },
+            decoder: {
+                readers: ['ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader', 'upc_e_reader', 'i2of5_reader'],
+            },
+        }, function (err) {
+            if (err) {
+                console.error('Gagal menginisialisasi pemindai QR code', err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected(function (result) {
+            var code = result.codeResult.code;
+            console.log('Hasil pemindaian QR code:', code);
+            
+            // // Kirim hasil pemindaian ke server menggunakan Axios
+            // axios.post('{{ route("update.car.status") }}', {
+            //     _token: '{{ csrf_token() }}', // Ganti dengan token CSRF jika menggunakan Laravel
+            //     scanned_data: code, // Kirim hasil pemindaian QR code ke server
+            // })
+            // .then(function (response) {
+            //     console.log('Respons dari server:', response.data);
+            //     // Lakukan tindakan lain jika diperlukan setelah berhasil memperbarui status
+            // })
+            // .catch(function (error) {
+            //     console.error('Terjadi kesalahan saat mengirimkan data ke server:', error);
+            // });
+        });
     </script>
 @stop
