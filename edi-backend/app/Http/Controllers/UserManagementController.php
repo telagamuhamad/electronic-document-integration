@@ -35,8 +35,11 @@ class UserManagementController extends Controller
             return back()->with('error_message', 'User tidak ditemukan');
         }
 
+        $roles = config('roles.roles');
+
         return view('admin.user-access-management.show', [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles
         ]);
     }
 
@@ -115,7 +118,6 @@ class UserManagementController extends Controller
         }
 
         try {
-            $user = new User();
             $user->name = $request->name;
             $user->username = $request->username;
             $user->role = $request->role;
@@ -124,7 +126,7 @@ class UserManagementController extends Controller
             }
             $user->save();
         } catch (\Exception $e) {
-            return redirect()->back()->with('error_message', 'Gagal mengupdate user');
+            return redirect()->back()->with('error_message', $e->getMessage());
         }
 
         return redirect()->back()->with('success_message', 'User berhasil diupdate');

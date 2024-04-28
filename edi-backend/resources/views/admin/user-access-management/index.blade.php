@@ -43,8 +43,14 @@
                                 <td class="text-center">{{ $user->name }}</td>
                                 <td class="text-center">{{ $user->role }}</td>
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-primary btn-sm">Detail</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                                    <a href="{{ route('admin.edi.user-access-management.show', [
+                                        'id' => $user->id
+                                    ]) }}" class="btn btn-primary btn-sm">Detail</a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="deleteUser({{ $user->id }})">Hapus</a>
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('admin.edi.user-access-management.destroy', ['id' => $user->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -58,3 +64,14 @@
         </div>
     </div>
 @stop
+
+@section('scripts')
+    <script>
+        function deleteUser(userId) {
+            if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+                event.preventDefault();
+                document.getElementById('delete-form-' + userId).submit();
+            }
+        }
+    </script>
+@append

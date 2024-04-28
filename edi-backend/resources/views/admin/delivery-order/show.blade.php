@@ -18,6 +18,9 @@
             Detail Pengiriman
         </div>
         <div class="panel-body">
+            <a href="{{ route('admin.edi.delivery-order.print', [
+                'id' => $delivery_order->id
+            ]) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; float: right" target="_blank">Cetak</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>

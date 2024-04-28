@@ -17,18 +17,21 @@ Route::prefix('edi')->name('edi.')->group(function () {
         Route::get('create', [DeliveryOrderController::class, 'create'])->name('create');
         Route::post('store', [DeliveryOrderController::class, 'store'])->name('store');
         Route::get('convert/{id}', [DeliveryOrderController::class, 'convert'])->name('convert');
+        Route::get('print/{id}', [DeliveryOrderController::class, 'print'])->name('print');
     });
 
     Route::prefix('good-return-note')->name('good-return-note.')->group(function () {
         Route::get('/', [GoodReturnNoteController::class, 'index'])->name('index');
         Route::get('show/{id}', [GoodReturnNoteController::class, 'show'])->name('show');
         Route::get('convert/{id}', [GoodReturnNoteController::class, 'convertToInvoice'])->name('convert');
+        Route::get('print/{id}', [GoodReturnNoteController::class, 'print'])->name('print');
     });
 
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('index');
         Route::get('show/{id}', [InvoiceController::class, 'show'])->name('show');
         Route::put('confirm-payment/{id}', [InvoiceController::class, 'confirmPayment'])->name('confirm-payment');
+        Route::get('print/{id}', [InvoiceController::class, 'print'])->name('print');
     });
 
     Route::prefix('car')->name('car.')->group(function () {
@@ -44,6 +47,7 @@ Route::prefix('edi')->name('edi.')->group(function () {
         Route::get('/', [TravelDocumentController::class, 'index'])->name('index');
         Route::get('show/{id}', [TravelDocumentController::class, 'show'])->name('show');
         Route::get('show-item/{id}', [TravelDocumentController::class, 'showItem'])->name('show-item');
+        Route::get('print/{id}', [TravelDocumentController::class, 'print'])->name('print');
     });
 
     Route::prefix('user-access-management')->name('user-access-management.')->group(function () {

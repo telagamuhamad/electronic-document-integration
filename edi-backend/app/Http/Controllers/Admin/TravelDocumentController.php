@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DeliveryOrder;
 use App\Models\DeliveryOrderItem;
 use App\Models\TravelDocument;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TravelDocumentController extends Controller
@@ -62,6 +63,24 @@ class TravelDocumentController extends Controller
         return view('admin.travel-document.show-item', [
             'delivery_order' => $deliveryOrder,
             'delivery_order_items' => $deliveryOrderItems
+        ]);
+    }
+
+    /**
+     * Print travel document
+     */
+    public function print ($id)
+    {
+        $travelDocument = TravelDocument::find($id);
+        if (empty($travelDocument)) {
+            return redirect()->back()->with('error_message', 'Travel document not found');
+        }
+
+        $dateNow = Carbon::now()->format('d M Y');
+
+        return view('admin.travel-document.print', [
+            'travel_document' => $travelDocument,
+            'date_now' => $dateNow
         ]);
     }
 }

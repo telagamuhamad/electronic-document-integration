@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -11,6 +10,13 @@ class AuthController extends Controller
 {
     public function login()
     {
+        // Check if user is already authenticated, if yes, redirect to home
+        if (Auth::check()) {
+            return redirect()->route('home');
+        } else {
+            return view('admin.login');
+        }
+        
         return view('admin.login');
     }
 
@@ -23,6 +29,8 @@ class AuthController extends Controller
     
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            // Store user in session
             $user = Auth::user();
             $request->session()->put('user', $user);
             

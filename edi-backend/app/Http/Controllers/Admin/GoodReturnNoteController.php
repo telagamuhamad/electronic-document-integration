@@ -106,4 +106,22 @@ class GoodReturnNoteController extends Controller
             'id' => $invoiceHeader->id
         ])->with('success_message', 'Berhasil konversi Tanda Terima menjadi Invoice');
     }
+
+    /**
+     * Print Goods Receipt
+     */
+    public function print($id)
+    {
+        $goodsReceiptHeader = GoodsReceiptHeader::find($id);
+        if (empty($goodsReceiptHeader)) {
+            return redirect()->back()->with('error_message', 'Tanda Terima tidak ditemukan');
+        }
+
+        $goodsReceiptItems = GoodsReceiptItem::where('goods_receipt_id', $id)->get();
+
+        return view('admin.good-return-note.print', [
+            'goods_receipt_header' => $goodsReceiptHeader,
+            'goods_receipt_items' => $goodsReceiptItems
+        ]);
+    }
 }

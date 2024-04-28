@@ -38,12 +38,14 @@
                                 <a href="{{ route('admin.edi.travel-document.show-item', [
                                     'id' => $order->id
                                 ]) }}" class="btn btn-primary btn-sm">Detail</a>
-                                <a href="#" class="btn btn-danger btn-sm">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('admin.edi.travel-document.print', [
+                'id' => $travel_document->id
+            ]) }}" class="btn btn-success btn-sm" style="margin-top:10px; float: right" target="_blank">Cetak</a>
         </div>
     </div>
 @stop

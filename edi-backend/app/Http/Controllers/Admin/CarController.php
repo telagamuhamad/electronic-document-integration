@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cars;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CarController extends Controller
 {
@@ -61,6 +63,15 @@ class CarController extends Controller
             $car->is_fulfilled = 0;
             $car->is_departed = 0;
             $car->save();
+
+            // Create car temporary user
+            $courierUser = new User();
+            $courierUser->name = $car->license_plate;
+            $courierUser->username = $car->license_plate;
+            $courierUser->password = Hash::make('password');
+            $courierUser->type = 'Temporary';
+            $courierUser->role = 'Kurir';
+            $courierUser->save();
         } catch (\Exception $e) {
             return redirect()->back()->with('error_message', $e->getMessage());
         }

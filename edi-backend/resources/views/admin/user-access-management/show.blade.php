@@ -17,7 +17,7 @@
         <div class="panel-heading">
             Detail User
         </div>
-        <form action="{{ route('admin.edi.user-access-management.update') }}">
+        <form action="{{ route('admin.edi.user-access-management.update') }}" method="POST" id="user-form">
             @csrf
             @method('PUT')
             <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
@@ -42,10 +42,10 @@
                 </div>
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <select name="role" id="role">
+                    <select name="role" id="role" class="form-control">
                         <option value="">Pilih Role</option>
                         @foreach($roles as $role)
-                            <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>{{ $role }}</option>
+                            <option value="{{ $role }}" {{ $user->role == $role ? 'selected' : '' }}>{{ $role }}</option>
                         @endforeach
                     </select>
                 </div>

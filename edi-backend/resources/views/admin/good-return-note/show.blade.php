@@ -18,6 +18,9 @@
             Detail Tanda Terima
         </div>
         <div class="panel-body">
+            <a href="{{ route('admin.edi.good-return-note.print', [
+                'id' => $goods_receipt_header->id
+            ]) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; float: right" target="_blank">Cetak</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>

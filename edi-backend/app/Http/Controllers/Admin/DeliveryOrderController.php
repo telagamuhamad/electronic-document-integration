@@ -214,5 +214,23 @@ class DeliveryOrderController extends Controller
 
         return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Delivery order converted to goods receipt successfully');
     }
+
+    /**
+     * print delivery order
+     */
+    public function print($id)
+    {
+        $deliveryOrder = DeliveryOrder::find($id);
+        if (empty($deliveryOrder)) {
+            return redirect()->back()->with('error', 'Delivery order not found');
+        }
+
+        $deliveryOrderItems = DeliveryOrderItem::where('delivery_order_id', $deliveryOrder->id)->get();
+
+        return view('admin.delivery-order.print', [
+            'delivery_order' => $deliveryOrder,
+            'delivery_order_items' => $deliveryOrderItems
+        ]);
+    }
     
 }

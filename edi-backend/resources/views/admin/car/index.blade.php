@@ -77,40 +77,4 @@
             return confirm("Apakah Anda yakin ingin menghapus mobil ini?");
         }
     </script>
-    <script>
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: document.querySelector('#scanner'),
-            },
-            decoder: {
-                readers: ['ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader', 'upc_e_reader', 'i2of5_reader'],
-            },
-        }, function (err) {
-            if (err) {
-                console.error('Gagal menginisialisasi pemindai QR code', err);
-                return;
-            }
-            Quagga.start();
-        });
-
-        Quagga.onDetected(function (result) {
-            var code = result.codeResult.code;
-            console.log('Hasil pemindaian QR code:', code);
-            
-            // // Kirim hasil pemindaian ke server menggunakan Axios
-            // axios.post('{{ route("update.car.status") }}', {
-            //     _token: '{{ csrf_token() }}', // Ganti dengan token CSRF jika menggunakan Laravel
-            //     scanned_data: code, // Kirim hasil pemindaian QR code ke server
-            // })
-            // .then(function (response) {
-            //     console.log('Respons dari server:', response.data);
-            //     // Lakukan tindakan lain jika diperlukan setelah berhasil memperbarui status
-            // })
-            // .catch(function (error) {
-            //     console.error('Terjadi kesalahan saat mengirimkan data ke server:', error);
-            // });
-        });
-    </script>
 @stop

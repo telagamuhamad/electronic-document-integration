@@ -76,4 +76,22 @@ class InvoiceController extends Controller
 
         return redirect()->back()->with('success_message', 'Berhasil bayar invoice');
     }
+
+    /**
+     * Print invoice
+     */
+    public function print($id) 
+    {
+        $invoice = Invoices::find($id);
+        if (empty($invoice)) {
+            return redirect()->back()->with('error_message', 'Invoice tidak ditemukan');
+        }
+
+        $invoiceItems = InvoiceItem::where('invoice_id', $id)->get();
+
+        return view('admin.invoice.print', [
+            'invoice' => $invoice,
+            'invoice_items' => $invoiceItems
+        ]);
+    }
 }
