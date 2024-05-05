@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Landing page
-Route::get('/', function () {
-    return view('landing');
-});
+// Route::get('/', function () {
+//     return view('landing');
+// });
+Route::get('/', [HomeController::class, 'landing'])->name('landing');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('do-login', [AuthController::class, 'doLogin'])->name('do-login');

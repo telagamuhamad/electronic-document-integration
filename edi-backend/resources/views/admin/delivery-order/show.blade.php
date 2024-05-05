@@ -18,6 +18,12 @@
             Detail Pengiriman
         </div>
         <div class="panel-body">
+            @if (!$delivery_order->is_received)
+                <a href="{{ route('admin.edi.delivery-order.receive', $delivery_order->id) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; margin-left: 10px; float: right" onclick="return confirmReceive()">Tandai Sudah Diterima</a>
+                <form action="{{ route('admin.edi.delivery-order.receive', $delivery_order->id) }}" method="POST" id="receive-form">
+                    @csrf
+                </form>
+            @endif
             <a href="{{ route('admin.edi.delivery-order.print', [
                 'id' => $delivery_order->id
             ]) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; float: right" target="_blank">Cetak</a>
@@ -91,6 +97,13 @@
     <script>
         function confirmConversion() {
             return confirm("Apakah Anda yakin ingin mengkonversi tanda terima ini?");
+        }
+
+        function confirmReceive() {
+            event.preventDefault();
+            if (confirm('Apakah Anda yakin ingin menerima pengiriman ini?')) {
+                document.getElementById('receive-form').submit();
+            }
         }
     </script>
 @stop

@@ -34,7 +34,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $request->session()->put('user', $user);
             
-            return redirect()->intended('home');
+            return redirect()->route('home');
         } else {
             Session::flash('error', 'Username atau Password Salah');
             return redirect()->back()->with('error', 'Username atau Password Salah');
@@ -46,6 +46,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('login');
+        return redirect()->route('landing');
     }
 }

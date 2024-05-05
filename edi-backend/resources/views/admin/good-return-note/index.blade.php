@@ -53,7 +53,6 @@
                                     <a href="{{ route('admin.edi.good-return-note.show', [
                                         'id' => $gr->id
                                     ]) }}" class="btn btn-primary btn-xs">Detail</a>
-                                    <a href="#" class="btn btn-danger btn-xs">Hapus</a>
                                 </td>
                             </tr>
                         @endforeach

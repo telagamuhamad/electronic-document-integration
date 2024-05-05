@@ -64,7 +64,7 @@ class CarController extends Controller
             $car->is_departed = 0;
             $car->save();
 
-            // Create car temporary user
+            // Create car temporary user for android login
             $courierUser = new User();
             $courierUser->name = $car->license_plate;
             $courierUser->username = $car->license_plate;

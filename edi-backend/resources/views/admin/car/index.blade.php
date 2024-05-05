@@ -29,7 +29,7 @@
                             <th class="text-center">Nama Supir 2</th>
                             <th class="text-center">Kapasitas (Kg)</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Kode QR</th>
+                            {{-- <th class="text-center">Kode QR</th> --}}
                             <th class="text-center">Opsi</th>
                         </tr>
                     </thead>
@@ -42,12 +42,16 @@
                         @foreach ($cars as $index => $car)
                             <tr>
                                 <td class="text-center">{{ $cars->firstItem() + $index }}</td>
-                                <td class="text-center">{{ $car->license_plate }}</td>
-                                <td class="text-center">{{ $car->driver_name_1 }}</td>
-                                <td class="text-center">{{ $car->driver_name_2 }}</td>
+                                <td class="text-center">{{ $car->license_plate ?? '' }}</td>
+                                <td class="text-center">{{ $car->driver_name_1 ?? '' }}</td>
+                                <td class="text-center">{{ $car->driver_name_2 ?? '' }}</td>
                                 <td class="text-center">{{ number_format($car->capacity, 0) }}</td>
-                                <td class="text-center">{{ $car->formatted_capacity_status }} | {{ $car->formatted_departure_status }}</td>
-                                <td id="qr-code">{{ $car->qr_code }}</td>
+                                @if (!$car->is_departed)
+                                    <td class="text-center">{{ $car->formatted_capacity_status ?? '' }} | {{ $car->formatted_departure_status ?? '' }}</td>
+                                @else
+                                <td class="text-center">{{ $car->formatted_departure_status ?? '' }}</td>
+                                @endif
+                                {{-- <td id="qr-code">{{ $car->qr_code }}</td> --}}
                                 <td class="text-center">
                                     <a href="{{ route('admin.edi.car.edit', [
                                         'id' => $car->id

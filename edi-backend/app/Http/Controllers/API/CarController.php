@@ -4,21 +4,31 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cars;
+use App\Models\DeliveryOrder;
+use App\Models\GoodsReceiptHeader;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
     public function getCar(Request $request)
     {
-        $user = auth()->user();
+        $user = User::where('id', $request->userId)->first();
+        if (empty($user)) {
+            return response()->json([
+                'error' => true,
+                'error_message' => 'User tidak ditemukan'
+            ]);
+        }
         if ($user->role !== 'Kurir') {
             return response()->json([
                 'error' => true,
-                'error_message' => 'Sorry, you are not authorized to access this resource.'
+                'error_message' => 'Sorry, you are not authorized to access this resource'
             ]);
         }
 
-        $car = Cars::where('license_plate', $request->license_plate)->first();
+        $car = Cars::where('license_plate', $request->license_plate)->with('deliveryOrders')->first();
         if (empty($car)) {
             return response()->json([
                 'error' => true,
@@ -34,11 +44,17 @@ class CarController extends Controller
 
     public function updateCarStatus(Request $request)
     {
-        $user = auth()->user();
+        $user = User::where('id', $request->userId)->first();
+        if (empty($user)) {
+            return response()->json([
+                'error' => true,
+                'error_message' => 'User tidak ditemukan'
+            ]);
+        }
         if ($user->role !== 'Kurir') {
             return response()->json([
                 'error' => true,
-                'error_message' => 'Sorry, you are not authorized to access this resource.'
+                'error_message' => 'Sorry, you are not authorized to access this resource'
             ]);
         }
 
@@ -50,14 +66,35 @@ class CarController extends Controller
             ]);
         }
 
-        if (!$car->is_departed) {
-            $car->is_departed = true;
-            $car->save();
+        $deliveryOrders = DeliveryOrder::where('car_id', $car->id)->get();
 
-            return response()->json([
-                'error' => false,
-                'success_message' => 'Car has been departed.'
-            ]);
+        if ($request->status === 'Berangkat') {
+            $car->is_departed = true;
+            if (!empty($deliveryOrders)) {
+                foreach ($deliveryOrders as $deliveryOrder) {
+                    $deliveryOrder->status = $request->status;
+                    $deliveryOrder->is_delivered = true;
+
+                    $goodsReceipts = GoodsReceiptHeader::where('delivery_order_id', $deliveryOrder->id)->first();
+                    if (empty($goodsReceipts)) {
+                        return response()->json([
+                            'error' => true,
+                            'error_message' => 'Goods receipt not found.'
+                        ]);
+                    }
+                    $goodsReceipts->delivery_date = Carbon::now();
+                    $goodsReceipts->is_delivered = true;
+
+                    $goodsReceipts->save();
+                    $deliveryOrder->save();
+                }
+            }
         }
+        $car->save();
+
+        return response()->json([
+            'error' => false,
+            'success_message' => 'Car status has been updated.'
+        ]);
     }
 }

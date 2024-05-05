@@ -97,7 +97,7 @@ class Invoices extends Model
      */
     public function getFormattedPaymentMethodAttribute()
     {
-        if ($this->payment_method == 'Cash') {
+        if ($this->payment_method == 'Tunai') {
             return 'Tunai';
         } else {
             return 'Transfer';

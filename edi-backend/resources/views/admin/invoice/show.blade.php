@@ -18,9 +18,11 @@
             Detail Invoice
         </div>
         <div class="panel-body">
-            <a href="{{ route('admin.edi.invoice.print', [
-                'id' => $invoice->id
-            ]) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; float: right" target="_blank">Cetak</a>
+            @if ($invoice->formatted_payment_status === 'Lunas')
+                <a href="{{ route('admin.edi.invoice.print', [
+                    'id' => $invoice->id
+                ]) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; float: right" target="_blank">Cetak</a>
+            @endif
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
@@ -119,7 +121,7 @@
                                     <td>
                                         <select name="payment_method" id="payment_method" class="form-control">
                                             <option value="">Pilih Metode</option>
-                                            <option value="Cash">Tunai</option>
+                                            <option value="Tunai">Tunai</option>
                                             <option value="Transfer">Transfer</option>
                                         </select>
                                         @error('payment_method')

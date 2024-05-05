@@ -22,7 +22,8 @@ class Cars extends Model
         'driver_name_2',
         'capacity',
         'is_fulfilled',
-        'is_departed'
+        'is_departed',
+        'is_delivered',
     ];
 
     protected $appends = [
@@ -45,7 +46,14 @@ class Cars extends Model
      */
     public function getFormattedCapacityStatusAttribute()
     {
-        return $this->is_fulfilled ? 'Penuh' : 'Memuat';
+        $status = null;
+        if (!$this->is_departed && !$this->is_fulfilled) {
+            $status = 'Memuat';
+        } else if ($this->is_fulfilled && !$this->is_departed) {
+            $status = 'Penuh';
+        }
+
+        return $status;
     }
 
     /**
@@ -54,7 +62,13 @@ class Cars extends Model
      */
     public function getFormattedDepartureStatusAttribute()
     {
-        return $this->is_departed ? 'Dalam Perjalanan' : 'Belum Berangkat';
+        if ($this->is_departed && $this->is_delivered) {
+            return 'Selesai Mengirim';
+        } else if ($this->is_departed && !$this->is_delivered) {
+            return 'Dalam Perjalanan';
+        } else {
+            return 'Belum Berangkat';
+        }
     }
 
     /**
@@ -65,5 +79,13 @@ class Cars extends Model
         $licensePlate = $this->license_plate;
 
         return FacadesQrCode::size(200)->generate($licensePlate);
+    }
+
+    /**
+     * Relation to Delivery orders
+     */
+    public function deliveryOrders()
+    {
+        return $this->hasMany(DeliveryOrder::class, 'car_id', 'id');
     }
 }

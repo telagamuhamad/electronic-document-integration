@@ -15,7 +15,7 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'desc')->whereNull('deleted_at')->paginate(10);
+        $users = User::orderBy('id', 'desc')->whereNull('deleted_at')->where('role', '!=', 'Kurir')->paginate(10);
 
         return view('admin.user-access-management.index', [
             'users' => $users

@@ -46,7 +46,6 @@
                                     <a href="{{ route('admin.edi.travel-document.show', [
                                         'id' => $travel_document->id
                                     ]) }}" class="btn btn-primary btn-sm">Detail</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
                                 </td>
                             </tr>
                         @endforeach

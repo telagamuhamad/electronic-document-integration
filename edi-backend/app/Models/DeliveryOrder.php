@@ -73,4 +73,11 @@ class DeliveryOrder extends Model
     {
         return $this->belongsTo(TravelDocument::class, 'travel_document_id', 'id');
     }
+
+    /**
+     * Relation to Invoice
+     */
+    public function invoice(){
+        return $this->hasOne(Invoices::class, 'delivery_order_id', 'id');
+    }
 }

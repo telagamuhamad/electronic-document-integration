@@ -9,6 +9,7 @@ use App\Models\DeliveryOrder;
 use App\Models\DeliveryOrderItem;
 use App\Models\GoodsReceiptHeader;
 use App\Models\GoodsReceiptItem;
+use App\Models\Invoices;
 use App\Models\TravelDocument;
 use App\Services\CarCapacityService;
 use App\Services\EdiConversionService;
@@ -212,7 +213,7 @@ class DeliveryOrderController extends Controller
             return redirect()->back()->with('error_message', $e->getMessage());
         }
 
-        return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Delivery order converted to goods receipt successfully');
+        return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Berhasil Konversi ke Tanda Terima');
     }
 
     /**
@@ -231,6 +232,48 @@ class DeliveryOrderController extends Controller
             'delivery_order' => $deliveryOrder,
             'delivery_order_items' => $deliveryOrderItems
         ]);
+    }
+
+    public function receive($id)
+    {
+        $deliveryOrder = DeliveryOrder::find($id);
+        if (empty($deliveryOrder)) {
+            return redirect()->back()->with('error', 'Delivery order not found');
+        }
+
+        $deliveryOrder->status = 'Diterima';
+        $deliveryOrder->is_received = true;
+
+        $car = Cars::where('id', $deliveryOrder->car_id)->first();
+        if (empty($car)) {
+            return redirect()->back()->with('error', 'Car not found');
+        }
+
+        $car->is_delivered = true;
+
+        $goodsReceipt = GoodsReceiptHeader::where('delivery_order_id', $deliveryOrder->id)->first();
+        if (empty($goodsReceipt)) {
+            return redirect()->back()->with('error', 'Goods receipt not found');
+        }
+
+        $goodsReceipt->received_date = Carbon::now();
+        $goodsReceipt->is_delivered = true;
+
+        $invoice = Invoices::where('delivery_order_id', $deliveryOrder->id)->first();
+        if (empty($invoice)) {
+            return redirect()->back()->with('error', 'Invoice not found');
+        }
+
+        $invoice->received_date = Carbon::now();
+        $invoice->is_delivered = true;
+
+        $deliveryOrder->save();
+        $car->save();
+        $goodsReceipt->save();
+        $invoice->save();
+
+        return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Berhasil Diterima');
+
     }
     
 }

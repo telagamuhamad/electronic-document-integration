@@ -141,15 +141,27 @@
             </div>
             <div class="content">
                 <div class="search-resi-section">
-                    <form>
+                    <form action="{{ route('landing') }}" method="GET" id="search-form" enctype="multipart/form-data" style="padding: 20px">
                         <div class="mb-3">
                             <section>
                                 <div class="input-group mb-3" style="padding: 20px">
                                     <input type="text" class="form-control" placeholder="Masukkan nomor resi Anda" name="resi" id="resi">
-                                    <button class="btn btn-danger" type="button" id="button-addon2">Cari</button>
+                                    <button class="btn btn-danger" type="submit" id="button-addon2">Cari</button>
                                   </div>
                             </section>
                       </form>
+                </div>
+                <div class="delivery-order-section">
+                    @if(!empty($delivery_order))
+                        <h3>Data Delivery Order</h3>
+                        <div class="card">
+                            <div class="card-body" style="text-align: left">
+                                <p><strong>Sender Name:</strong> {{ $delivery_order->sender_name }}</p>
+                                <p><strong>Receiver Name:</strong> {{ $delivery_order->receiver_name }}</p>
+                                <p><strong>Status:</strong> {{ $delivery_order->status }}</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="our-services">
                     <h3 style="text-align: center">Layanan Kami</h3>
