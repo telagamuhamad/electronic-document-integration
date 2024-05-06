@@ -217,6 +217,24 @@ class DeliveryOrderController extends Controller
     }
 
     /**
+     * Delete the specified resource from storage.
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $deliveryOrder = DeliveryOrder::find($id);
+        if (empty($deliveryOrder)) {
+            return redirect()->back()->with('error_message', 'Delivery order not found');
+        }
+
+        $deliveryOrder->delete();
+
+        return redirect()->route('admin.edi.delivery-order.index')->with('success_message', 'Berhasil Hapus Permintaan Pengiriman');
+    }
+
+    /**
      * print delivery order
      */
     public function print($id)

@@ -18,7 +18,7 @@
             Detail Pengiriman
         </div>
         <div class="panel-body">
-            @if (!$delivery_order->is_received)
+            @if (!$delivery_order->is_received && $delivery_order->is_converted)
                 <a href="{{ route('admin.edi.delivery-order.receive', $delivery_order->id) }}" class="btn btn-success btn-sm" style="margin-bottom:10px; margin-left: 10px; float: right" onclick="return confirmReceive()">Tandai Sudah Diterima</a>
                 <form action="{{ route('admin.edi.delivery-order.receive', $delivery_order->id) }}" method="POST" id="receive-form">
                     @csrf

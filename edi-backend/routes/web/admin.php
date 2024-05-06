@@ -18,6 +18,7 @@ Route::prefix('edi')->name('edi.')->group(function () {
         Route::post('store', [DeliveryOrderController::class, 'store'])->name('store');
         Route::get('convert/{id}', [DeliveryOrderController::class, 'convert'])->name('convert');
         Route::get('print/{id}', [DeliveryOrderController::class, 'print'])->name('print');
+        Route::delete('destroy/{id}', [DeliveryOrderController::class, 'destroy'])->name('destroy');
         Route::post('receive/{id}', [DeliveryOrderController::class, 'receive'])->name('receive');
     });
 

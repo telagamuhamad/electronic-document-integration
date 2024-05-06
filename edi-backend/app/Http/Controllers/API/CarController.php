@@ -74,6 +74,8 @@ class CarController extends Controller
                 foreach ($deliveryOrders as $deliveryOrder) {
                     $deliveryOrder->status = $request->status;
                     $deliveryOrder->is_delivered = true;
+                    $deliveryOrder->last_updated_by_user_id = $user->id;
+                    $deliveryOrder->last_updated_by_user_name = $user->name;
 
                     $goodsReceipts = GoodsReceiptHeader::where('delivery_order_id', $deliveryOrder->id)->first();
                     if (empty($goodsReceipts)) {
@@ -84,8 +86,19 @@ class CarController extends Controller
                     }
                     $goodsReceipts->delivery_date = Carbon::now();
                     $goodsReceipts->is_delivered = true;
+                    $goodsReceipts->last_updated_by_user_id = $user->id;
+                    $goodsReceipts->last_updated_by_user_name = $user->name;
 
                     $goodsReceipts->save();
+                    $deliveryOrder->save();
+                }
+            }
+        } else if ($request->status == 'Terkendala') {
+            if (!empty($deliveryOrders)) {
+                foreach ($deliveryOrders as $deliveryOrder) {
+                    $deliveryOrder->status = $request->status;
+                    $deliveryOrder->last_updated_by_user_id = $user->id;
+                    $deliveryOrder->last_updated_by_user_name = $user->name;
                     $deliveryOrder->save();
                 }
             }

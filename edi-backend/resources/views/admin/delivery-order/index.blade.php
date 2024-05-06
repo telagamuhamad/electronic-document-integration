@@ -52,7 +52,11 @@
                                         'id' => $deliveryOrder->id
                                     ]) }}" class="btn btn-primary btn-sm">Detail</a>
                                     @if (!$deliveryOrder->is_converted)
-                                        <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                                        <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $deliveryOrder->id }})">Hapus</a>
+                                        <form id="delete-form-{{ $deliveryOrder->id }}" action="{{ route('admin.edi.delivery-order.destroy', ['id' => $deliveryOrder->id]) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
@@ -66,4 +70,16 @@
             </nav>
         </div>
     </div>
+@stop
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function confirmDelete(deliveryOrderId) {
+            if (confirm('Apakah Anda yakin ingin menghapus pengiriman ini?')) {
+                document.getElementById('delete-form-' + deliveryOrderId).submit();
+            }
+        }
+    </script>
+    
 @stop
