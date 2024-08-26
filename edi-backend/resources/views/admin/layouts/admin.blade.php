@@ -34,6 +34,12 @@
             border: 1px solid transparent;
             border-radius: 4px;
         }
+
+        @media screen and (max-width: 768px) {
+            .logout-btn {
+                padding-right: 15px !important;
+            }
+        }
     </style>
 </head>
 
@@ -52,7 +58,7 @@
             <div style="color: white;
                 padding: 15px 50px 5px 50px;
                 float: right;
-                font-size: 16px;"> 
+                font-size: 16px;" class="logout-btn"> 
                 {{ auth()->user()->name }} &nbsp; <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust">Logout</a> 
             </div>
         </nav>
