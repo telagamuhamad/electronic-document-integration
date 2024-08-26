@@ -59,7 +59,7 @@
                 padding: 15px 50px 5px 50px;
                 float: right;
                 font-size: 16px;" class="logout-btn"> 
-                {{ auth()->user()->name }} &nbsp; <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust">Logout</a> 
+                {{ auth()->user()->name }} &nbsp; <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust" onclick="if(confirm('Are you sure you want to logout?')) document.getElementById('logout-form').submit();">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
