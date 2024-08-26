@@ -35,6 +35,12 @@
             padding: 50px;
             border-radius: 30px;
         }
+
+        @media screen and (max-width: 768px) {
+            .login-card {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
